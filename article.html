@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Article</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="index.html">← Back to Home</a>
+    <h1 id="article-title"></h1>
+  </header>
+  <main id="article-content"></main>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id");
+
+    fetch('articles.js')
+      .then(res => res.text())
+      .then(code => {
+        eval(code);
+        const article = articles.find(a => a.id == id);
+        if (article) {
+          document.getElementById('article-title').textContent = article.title;
+          document.getElementById('article-content').innerHTML = `<p>${article.content}</p>`;
+        } else {
+          document.getElementById('article-content').textContent = 'Article not found.';
+        }
+      });
+  </script>
+</body>
+</html>
